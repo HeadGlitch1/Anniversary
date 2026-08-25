@@ -32,6 +32,42 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Hearts Container */
+    #heartsContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-heart {
+      position: absolute;
+      bottom: -30px;
+      color: var(--accent-pink);
+      font-size: 1.2rem;
+      opacity: 0.6;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-105vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+      }
     }
 
     /* Login Modal Overlay */
@@ -184,6 +220,8 @@
       text-align: center;
       padding: 20px;
       background: radial-gradient(circle at center, rgba(255, 77, 109, 0.15) 0%, transparent 70%);
+      position: relative;
+      z-index: 2;
     }
 
     .hero h1 {
@@ -200,8 +238,37 @@
       max-width: 600px;
     }
 
+    /* Live Counter Styling */
+    .counter-grid {
+      display: flex;
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .counter-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 18px;
+      min-width: 70px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .counter-num {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--accent-pink);
+    }
+
+    .counter-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .scroll-indicator {
-      margin-top: 40px;
+      margin-top: 35px;
       font-size: 0.9rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -221,6 +288,8 @@
       max-width: 900px;
       margin: 0 auto;
       padding: 60px 24px;
+      position: relative;
+      z-index: 2;
     }
 
     .section-title {
@@ -284,6 +353,92 @@
 
     .single-note-card p:last-child {
       margin-bottom: 0;
+    }
+
+    /* Interactive Reasons Jar Card */
+    .jar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .jar-icon {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+    }
+
+    .jar-display {
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: var(--text-main);
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px dashed var(--border-color);
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .jar-btn {
+      padding: 12px 28px;
+      background: var(--accent-pink);
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--accent-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .jar-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Envelope Secret Note Card */
+    .envelope-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .envelope-icon {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-message {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-main);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Timeline Section */
@@ -406,13 +561,29 @@
         left: 12px;
       }
 
-      .letter-card, .single-note-card {
+      .letter-card, .single-note-card, .jar-card, .envelope-card {
         padding: 28px 20px;
+      }
+
+      .counter-grid {
+        gap: 8px;
+      }
+
+      .counter-box {
+        min-width: 60px;
+        padding: 8px 12px;
+      }
+
+      .counter-num {
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Floating Hearts Background Container -->
+  <div id="heartsContainer"></div>
 
   <!-- Login Modal Overlay -->
   <div class="login-overlay" id="loginOverlay">
@@ -446,6 +617,27 @@
   <header class="hero">
     <h1>365 Days of Us</h1>
     <p>Celebrating one year of unforgettable memories, continuous laughter, and growing together.</p>
+    
+    <!-- Live Time Together Counter -->
+    <div class="counter-grid">
+      <div class="counter-box">
+        <div class="counter-num" id="daysNum">0</div>
+        <div class="counter-label">Days</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="hoursNum">0</div>
+        <div class="counter-label">Hours</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="minsNum">0</div>
+        <div class="counter-label">Mins</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="secsNum">0</div>
+        <div class="counter-label">Secs</div>
+      </div>
+    </div>
+
     <div class="scroll-indicator">↓ Scroll Down</div>
   </header>
 
@@ -481,6 +673,16 @@
     </div>
   </section>
 
+  <!-- Reasons I Love You Jar Section -->
+  <section class="container">
+    <h2 class="section-title">Little Notes For You</h2>
+    <div class="jar-card">
+      <div class="jar-icon">🫙✨</div>
+      <div class="jar-display" id="jarDisplay">Tap the button below to pull a reason from the jar!</div>
+      <button class="jar-btn" onclick="drawReason()">Pull A Note ❤️</button>
+    </div>
+  </section>
+
   <!-- Custom Note Section (Single Combined Message) -->
   <section class="container">
     <h2 class="section-title">Why You Mean Everything To Me</h2>
@@ -489,6 +691,18 @@
       <p>Looking back at this past year, I so much realize how good you have been to me. You’ve stood by my side even in times when I was in need, showing me a level of love and care that I’ll never take for granted.</p>
       <p>There were times when I felt hard to love, times when I doubted myself,yet you showed up with so much love and patience, proving to me that I was worthy of affection even when I couldn't see it myself.</p>
       <p>Thank you for how hard you try to brighten my mood whenever I'm down. Your effort, your laughter, and your pure heart mean the world to me. Having you in my life is the greatest gift. I'm so glad we crossed paths. I love you so much my sexy, chubby princess🥹💕🫂.</p>
+    </div>
+  </section>
+
+  <!-- Sealed Envelope Secret Note Section -->
+  <section class="container">
+    <h2 class="section-title">A Sealed Secret</h2>
+    <div class="envelope-card" onclick="openEnvelope()">
+      <div class="envelope-icon" id="envIcon">💌</div>
+      <h3 style="color: var(--accent-pink);" id="envTitle">Tap to Unseal Secret Note</h3>
+      <div class="envelope-message" id="envMessage">
+        <p>✨ <strong>Secret Note:</strong> No matter how many days pass or how busy life gets, making you smile will always be my absolute favorite priority. Thank you for being my dream girl! 💍💕</p>
+      </div>
     </div>
   </section>
 
@@ -552,6 +766,83 @@
     const CORRECT_USER = "Angel";
     const CORRECT_PASS = "26/08/2025";
 
+    // Start Date for Live Counter (26 August 2025)
+    const startDate = new Date("2025-08-26T00:00:00");
+
+    // Reasons Jar Array
+    const reasons = [
+      "How your smile instantly brightens even my lowest days 🥹💕",
+      "The way you always believe in me even when I doubt myself ✨",
+      "All our late-night conversations and laughs under the stars 🌙",
+      "Your gentle, caring heart and pure patience with me 💖",
+      "How safe and completely at home I feel around you 🫂",
+      "Just simply being you—my absolute favorite person 💍"
+    ];
+
+    function updateLiveCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('daysNum').textContent = days;
+      document.getElementById('hoursNum').textContent = hours;
+      document.getElementById('minsNum').textContent = minutes;
+      document.getElementById('secsNum').textContent = seconds;
+    }
+
+    setInterval(updateLiveCounter, 1000);
+    updateLiveCounter();
+
+    function drawReason() {
+      const display = document.getElementById('jarDisplay');
+      const randomMsg = reasons[Math.floor(Math.random() * reasons.length)];
+      display.style.opacity = 0;
+      setTimeout(() => {
+        display.textContent = randomMsg;
+        display.style.opacity = 1;
+      }, 200);
+    }
+
+    function openEnvelope() {
+      const msg = document.getElementById('envMessage');
+      const icon = document.getElementById('envIcon');
+      const title = document.getElementById('envTitle');
+      
+      if (msg.style.display === 'block') {
+        msg.style.display = 'none';
+        icon.textContent = '💌';
+        title.textContent = 'Tap to Unseal Secret Note';
+      } else {
+        msg.style.display = 'block';
+        icon.textContent = '📂';
+        title.textContent = 'Secret Note Unsealed ✨';
+      }
+    }
+
+    function createFloatingHearts() {
+      const container = document.getElementById('heartsContainer');
+      const hearts = ['❤️', '💖', '💕', '✨', '🌸'];
+
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        container.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 7000);
+      }, 800);
+    }
+
+    createFloatingHearts();
+
     function handleLogin(event) {
       event.preventDefault();
       const userIn = document.getElementById('username').value.trim();
@@ -574,7 +865,6 @@
           playBtn.textContent = '❚❚';
           statusText.textContent = 'Playing...';
         }).catch(() => {
-          // Fallback if browser requires manual interaction
           console.log("Audio play blocked");
         });
 

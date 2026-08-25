@@ -70,28 +70,35 @@
       }
     }
 
-    /* Peeking Edge Cat Styling */
-    .corner-cat {
+    /* Peeking Edge Vector Cat Styling */
+    .corner-cat-wrapper {
       position: fixed;
-      bottom: -5px;
-      right: 15px;
+      bottom: -2px;
+      right: 20px;
       z-index: 1001;
-      font-size: 3.2rem;
       cursor: pointer;
       user-select: none;
-      filter: drop-shadow(0 0 10px var(--accent-glow));
-      animation: catPeek 3s ease-in-out infinite alternate;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       transition: transform 0.2s ease;
     }
 
-    .corner-cat:hover, .corner-cat:active {
-      transform: scale(1.2) rotate(-10deg);
+    .corner-cat-wrapper:hover, .corner-cat-wrapper:active {
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    .cat-svg {
+      width: 65px;
+      height: auto;
+      filter: drop-shadow(0 -3px 10px rgba(255, 77, 109, 0.4));
+      animation: catPeek 3s ease-in-out infinite alternate;
     }
 
     @keyframes catPeek {
       0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(3deg); }
-      100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-4px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(-2deg); }
     }
 
     /* Login Modal Overlay */
@@ -345,7 +352,8 @@
       transform: translateY(-4px);
     }
 
-    .photo-slot img {
+    .photo-slot img,
+    .photo-slot video {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -602,9 +610,8 @@
         font-size: 1.1rem;
       }
 
-      .corner-cat {
-        font-size: 2.5rem;
-        right: 10px;
+      .cat-svg {
+        width: 50px;
       }
     }
   </style>
@@ -614,8 +621,35 @@
   <!-- Floating Hearts Background Container -->
   <div id="heartsContainer"></div>
 
-  <!-- Peeking Corner Cat (Tap for Meow) -->
-  <div class="corner-cat" onclick="meowSound()" title="Tap me!">🐱🐾</div>
+  <!-- Peeking Edge Vector Cat -->
+  <div class="corner-cat-wrapper" onclick="meowSound()" title="Tap me for a meow!">
+    <svg class="cat-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ears -->
+      <path d="M 25,50 L 10,15 L 45,35 Z" fill="#2d2738" stroke="#ff4d6d" stroke-width="2"/>
+      <path d="M 95,50 L 110,15 L 75,35 Z" fill="#2d2738" stroke="#ff4d6d" stroke-width="2"/>
+      <!-- Inner Ears -->
+      <path d="M 27,45 L 18,22 L 40,35 Z" fill="#ff4d6d"/>
+      <path d="M 93,45 L 102,22 L 80,35 Z" fill="#ff4d6d"/>
+      <!-- Head -->
+      <ellipse cx="60" cy="65" rx="45" ry="38" fill="#1a1622" stroke="#ff4d6d" stroke-width="2"/>
+      <!-- Eyes -->
+      <ellipse cx="42" cy="60" rx="6" ry="9" fill="#ff4d6d"/>
+      <ellipse cx="78" cy="60" rx="6" ry="9" fill="#ff4d6d"/>
+      <circle cx="44" cy="57" r="2.5" fill="#ffffff"/>
+      <circle cx="80" cy="57" r="2.5" fill="#ffffff"/>
+      <!-- Nose & Mouth -->
+      <polygon points="57,70 63,70 60,74" fill="#ff4d6d"/>
+      <path d="M 54,77 Q 60,82 60,77 Q 60,82 66,77" fill="none" stroke="#ff4d6d" stroke-width="2" stroke-linecap="round"/>
+      <!-- Whiskers -->
+      <line x1="20" y1="62" x2="3" y2="58" stroke="#f3f0f7" stroke-width="1.5" opacity="0.7"/>
+      <line x1="20" y1="68" x2="5" y2="70" stroke="#f3f0f7" stroke-width="1.5" opacity="0.7"/>
+      <line x1="100" y1="62" x2="117" y2="58" stroke="#f3f0f7" stroke-width="1.5" opacity="0.7"/>
+      <line x1="100" y1="68" x2="115" y2="70" stroke="#f3f0f7" stroke-width="1.5" opacity="0.7"/>
+      <!-- Paws resting over edge -->
+      <ellipse cx="40" cy="100" rx="12" ry="7" fill="#2d2738" stroke="#ff4d6d" stroke-width="1.5"/>
+      <ellipse cx="80" cy="100" rx="12" ry="7" fill="#2d2738" stroke="#ff4d6d" stroke-width="1.5"/>
+    </svg>
+  </div>
 
   <!-- Login Modal Overlay -->
   <div class="login-overlay" id="loginOverlay">
@@ -673,7 +707,7 @@
     <div class="scroll-indicator">↓ Scroll Down</div>
   </header>
 
-  <!-- Hardcoded Photo Gallery -->
+  <!-- Hardcoded Photo & Video Gallery -->
   <section class="container">
     <h2 class="section-title">Our Favorite Shots</h2>
     <div class="photo-grid">
@@ -700,6 +734,14 @@
 
       <div class="photo-slot">
         <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" alt="Moment 6">
+      </div>
+
+      <!-- Video Slot -->
+      <div class="photo-slot">
+        <video controls playsinline preload="metadata">
+          <source src="your-video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
 
     </div>

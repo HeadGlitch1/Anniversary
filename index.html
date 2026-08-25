@@ -353,8 +353,7 @@
       transform: translateY(-4px);
     }
 
-    .photo-slot img,
-    .photo-slot video {
+    .photo-slot img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -707,7 +706,7 @@
     <div class="scroll-indicator">↓ Scroll Down</div>
   </header>
 
-  <!-- Hardcoded Photo & Video Gallery -->
+  <!-- Hardcoded Photo Gallery -->
   <section class="container">
     <h2 class="section-title">Our Favorite Shots</h2>
     <div class="photo-grid">
@@ -734,20 +733,6 @@
 
       <div class="photo-slot">
         <img src="https://i.postimg.cc/jqW4RfNb/be5fe899-a927-4ae4-9342-41b79b430cda.jpg" alt="Moment 6">
-      </div>
-
-      <!-- Updated Video Slot for Mobile Safari & Vercel -->
-      <div class="photo-slot">
-        <video 
-          controls 
-          playsinline 
-          webkit-playsinline 
-          preload="metadata" 
-          muted 
-          style="width: 100%; height: 100%; object-fit: cover;">
-          <source src="./video.mp4" type="video/mp4">
-          Your browser does not support video playback.
-        </video>
       </div>
 
     </div>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy 1st Anniversary!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f0d13;
+      --card-bg: #1a1622;
+      --accent-pink: #ff4d6d;
+      --accent-glow: rgba(255, 77, 109, 0.35);
+      --text-main: #f3f0f7;
+      --text-muted: #a39eb0;
+      --border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Music Player Bar */
+    .music-bar {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      background: rgba(26, 22, 34, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .music-btn {
+      background: var(--accent-pink);
+      border: none;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .music-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      background: radial-gradient(circle at center, rgba(255, 77, 109, 0.15) 0%, transparent 70%);
+    }
+
+    .hero h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      color: var(--accent-pink);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .scroll-indicator {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-pink);
+      opacity: 0.8;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* Shared Layout Structure */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .section-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.2rem;
+      color: var(--accent-pink);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Photo Gallery Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .photo-slot {
+      aspect-ratio: 1 / 1;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .photo-slot:hover {
+      transform: translateY(-4px);
+    }
+
+    .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Single Message Note Card */
+    .single-note-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      text-align: left;
+    }
+
+    .single-note-card h3 {
+      font-size: 1.5rem;
+      color: var(--accent-pink);
+      margin-bottom: 16px;
+    }
+
+    .single-note-card p {
+      color: var(--text-main);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .single-note-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Timeline Section */
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--accent-pink), transparent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 30px;
+      position: relative;
+      margin-bottom: 40px;
+      width: 50%;
+    }
+
+    .timeline-item:nth-child(even) {
+      align-self: flex-end;
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: 30px;
+      margin-left: 50%;
+    }
+
+    .timeline-node {
+      position: absolute;
+      top: 15px;
+      right: -8px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--accent-pink);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-pink);
+    }
+
+    .timeline-item:nth-child(even) .timeline-node {
+      right: auto;
+      left: -8px;
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .timeline-date {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .timeline-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .timeline-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Letter Section */
+    .letter-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .letter-card p {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .signature {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.2rem;
+      color: var(--accent-pink);
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item, .timeline-item:nth-child(even) {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 50px;
+        padding-right: 0;
+      }
+
+      .timeline-node, .timeline-item:nth-child(even) .timeline-node {
+        left: 12px;
+      }
+
+      .letter-card, .single-note-card {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Player Bar -->
+  <div class="music-bar">
+    <button class="music-btn" id="playBtn" onclick="toggleAudio()">▶</button>
+    <span class="music-text" id="musicStatus">Play Our Song</span>
+    <!-- Replace link below with your direct audio URL -->
+    <audio id="anniversarySong" loop src="https://files.catbox.moe/YOUR_AUDIO.mp3 https://open.spotify.com/track/2U7svZUGvR4tfKdyxv9mXu?si=jarwMLaPS-iOda4nSHF8QA&utm_source=native-share-menu"></audio>
+  </div>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <h1>365 Days of Us</h1>
+    <p>Celebrating one year of unforgettable memories, continuous laughter, and growing together.</p>
+    <div class="scroll-indicator">↓ Scroll Down</div>
+  </header>
+
+  <!-- Hardcoded Photo Gallery -->
+  <section class="container">
+    <h2 class="section-title">Our Favorite Shots</h2>
+    <div class="photo-grid">
+      
+      <div class="photo-slot">
+        <img src="https://i.postimg.cc/Z5CMP6S5/IMG-1551.jpg" alt="Moment 1">
+      </div>
+
+      <div class="photo-slot">
+        <img src="https://i.postimg.cc/Z5CMP6S5/IMG-1551.jpg" alt="Moment 2">
+      </div>
+
+      <div class="photo-slot">
+        <img src="https://i.postimg.cc/Z5CMP6S5/IMG-1551.jpg" alt="Moment 3">
+      </div>
+
+      <div class="photo-slot">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" alt="Moment 4">
+      </div>
+
+      <div class="photo-slot">
+        <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=600" alt="Moment 5">
+      </div>
+
+      <div class="photo-slot">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" alt="Moment 6">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Custom Note Section (Single Combined Message) -->
+  <section class="container">
+    <h2 class="section-title">Why You Mean Everything To Me</h2>
+    <div class="single-note-card">
+      <h3>✨ My Safe Haven</h3>
+      <p>Looking back at this past year, I constantly realize how incredibly good you have been to me. You’ve stepped up and stood by my side in moments when I was in need, showing me a level of selflessness and care that I’ll never take for granted.</p>
+      <p>There were times when I felt hard to love, times when I doubted myself—yet you showed up with so much warmth and patience, proving to me that I was worthy of affection even when I couldn't see it myself.</p>
+      <p>Thank you for how hard you try to brighten my mood whenever I'm down. Your effort, your laughter, and your pure heart mean the world to me. Having you in my life is the greatest gift. I love you so much my sexy, chubby princess🥹💕🫂.</p>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="container">
+    <h2 class="section-title">Key Milestones</h2>
+    <div class="timeline">
+      
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">August 2025</div>
+          <h3>Where It All Started</h3>
+          <p>The day we made things official. Looking back, it was the best decision I ever made.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">Late Night Vibes</div>
+          <h3>Our Favorite Walks & Music</h3>
+          <p>From late-night talks to walking under the stars listening to our favorite tracks.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">Everyday Moments</div>
+          <h3>The Small Things</h3>
+          <p>It's not just the big dates—it's the simple routine, laughing over nothing, and having you in my corner.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">August 2026</div>
+          <h3>One Year Down</h3>
+          <p>365 days completed and we're just getting started. Here's to everything coming next.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Personal Letter Section -->
+  <section class="container">
+    <h2 class="section-title">A Message For You</h2>
+    <div class="letter-card">
+      <p>Happy 1st Anniversary!</p>
+      <p>Reflecting on this past year, I couldn't be more grateful for having you by my side. You bring so much energy, peace, and joy into my life every single day.</p>
+      <p>Thank you for all the memories, the laughs, and for being my biggest supporter. Today is a celebration of everything we’ve built so far, and I can't wait for all the chapters ahead of us.</p>
+      <div class="signature">Forever & Always</div>
+    </div>
+  </section>
+
+  <script>
+    function toggleAudio() {
+      const audio = document.getElementById('anniversarySong');
+      const playBtn = document.getElementById('playBtn');
+      const statusText = document.getElementById('musicStatus');
+
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '❚❚';
+        statusText.textContent = 'Playing...';
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        statusText.textContent = 'Play Our Song';
+      }
+    }
+  </script>
+</body>
+</html>

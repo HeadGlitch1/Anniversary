@@ -70,6 +70,30 @@
       }
     }
 
+    /* Peeking Edge Cat Styling */
+    .corner-cat {
+      position: fixed;
+      bottom: -5px;
+      right: 15px;
+      z-index: 1001;
+      font-size: 3.2rem;
+      cursor: pointer;
+      user-select: none;
+      filter: drop-shadow(0 0 10px var(--accent-glow));
+      animation: catPeek 3s ease-in-out infinite alternate;
+      transition: transform 0.2s ease;
+    }
+
+    .corner-cat:hover, .corner-cat:active {
+      transform: scale(1.2) rotate(-10deg);
+    }
+
+    @keyframes catPeek {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(-3deg); }
+    }
+
     /* Login Modal Overlay */
     .login-overlay {
       position: fixed;
@@ -577,6 +601,11 @@
       .counter-num {
         font-size: 1.1rem;
       }
+
+      .corner-cat {
+        font-size: 2.5rem;
+        right: 10px;
+      }
     }
   </style>
 </head>
@@ -584,6 +613,9 @@
 
   <!-- Floating Hearts Background Container -->
   <div id="heartsContainer"></div>
+
+  <!-- Peeking Corner Cat (Tap for Meow) -->
+  <div class="corner-cat" onclick="meowSound()" title="Tap me!">🐱🐾</div>
 
   <!-- Login Modal Overlay -->
   <div class="login-overlay" id="loginOverlay">
@@ -769,13 +801,14 @@
     // Start Date for Live Counter (26 August 2025)
     const startDate = new Date("2025-08-26T00:00:00");
 
-    // Reasons Jar Array
+    // Reasons Jar Array (Includes a paws-itive note!)
     const reasons = [
       "How your smile instantly brightens even my lowest days 🥹💕",
       "The way you always believe in me even when I doubt myself ✨",
       "All our late-night conversations and laughs under the stars 🌙",
       "Your gentle, caring heart and pure patience with me 💖",
       "How safe and completely at home I feel around you 🫂",
+      "P.S. Life with you is completely purr-fect! 🐾🐱💕",
       "Just simply being you—my absolute favorite person 💍"
     ];
 
@@ -823,9 +856,32 @@
       }
     }
 
+    /* Soft synthesized meow sound effect */
+    function meowSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(450, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(750, ctx.currentTime + 0.15);
+        osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.35);
+        
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.35);
+      } catch (e) {
+        console.log("Audio not supported yet");
+      }
+    }
+
     function createFloatingHearts() {
       const container = document.getElementById('heartsContainer');
-      const hearts = ['❤️', '💖', '💕', '✨', '🌸'];
+      const hearts = ['❤️', '💖', '💕', '✨', '🌸', '🐾'];
 
       setInterval(() => {
         const heart = document.createElement('div');

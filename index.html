@@ -346,6 +346,7 @@
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s ease;
+      position: relative;
     }
 
     .photo-slot:hover {
@@ -675,7 +676,6 @@
   <div class="music-bar">
     <button class="music-btn" id="playBtn" onclick="toggleAudio()">▶</button>
     <span class="music-text" id="musicStatus">Play Our Song</span>
-    <!-- Replace link below with your direct audio URL -->
     <audio id="anniversarySong" loop src="song.mp3"></audio>
   </div>
 
@@ -736,11 +736,17 @@
         <img src="https://i.postimg.cc/jqW4RfNb/be5fe899-a927-4ae4-9342-41b79b430cda.jpg" alt="Moment 6">
       </div>
 
-      <!-- Updated Video Slot -->
+      <!-- Updated Video Slot for Mobile Safari & Vercel -->
       <div class="photo-slot">
-        <video controls playsinline preload="auto" muted>
-          <source src="video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
+        <video 
+          controls 
+          playsinline 
+          webkit-playsinline 
+          preload="metadata" 
+          muted 
+          style="width: 100%; height: 100%; object-fit: cover;">
+          <source src="./video.mp4" type="video/mp4">
+          Your browser does not support video playback.
         </video>
       </div>
 
@@ -836,14 +842,10 @@
   </section>
 
   <script>
-    // Set your desired credentials here
     const CORRECT_USER = "Angel";
     const CORRECT_PASS = "26/08/2025";
-
-    // Start Date for Live Counter (26 August 2025)
     const startDate = new Date("2025-08-26T00:00:00");
 
-    // Reasons Jar Array (Includes a paws-itive note!)
     const reasons = [
       "How your smile instantly brightens even my lowest days 🥹💕",
       "The way you always believe in me even when I doubt myself ✨",
@@ -898,7 +900,6 @@
       }
     }
 
-    /* Soft synthesized meow sound effect */
     function meowSound() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -950,11 +951,8 @@
 
       if (userIn.toLowerCase() === CORRECT_USER.toLowerCase() && passIn === CORRECT_PASS) {
         errorMsg.style.display = 'none';
-        
-        // Burst Confetti
         triggerConfetti();
 
-        // Start Music
         const audio = document.getElementById('anniversarySong');
         const playBtn = document.getElementById('playBtn');
         const statusText = document.getElementById('musicStatus');
@@ -966,7 +964,6 @@
           console.log("Audio play blocked");
         });
 
-        // Hide overlay with fade effect
         overlay.classList.add('hidden');
       } else {
         errorMsg.style.display = 'block';
@@ -975,9 +972,7 @@
 
     function triggerConfetti() {
       const count = 200;
-      const defaults = {
-        origin: { y: 0.7 }
-      };
+      const defaults = { origin: { y: 0.7 } };
 
       function fire(particleRatio, opts) {
         confetti(Object.assign({}, defaults, opts, {
@@ -985,28 +980,11 @@
         }));
       }
 
-      fire(0.25, {
-        spread: 26,
-        startVelocity: 55,
-      });
-      fire(0.2, {
-        spread: 60,
-      });
-      fire(0.35, {
-        spread: 100,
-        decay: 0.91,
-        scalar: 0.8
-      });
-      fire(0.1, {
-        spread: 120,
-        startVelocity: 25,
-        decay: 0.92,
-        scalar: 1.2
-      });
-      fire(0.1, {
-        spread: 120,
-        startVelocity: 45,
-      });
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
     function toggleAudio() {
